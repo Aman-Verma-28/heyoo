@@ -22,14 +22,11 @@ def hook():
         return "Invalid verification token"
 
     data = request.get_json()
-    changed_field = messenger.changed_field(data)
-    if changed_field == "messages":
-        new_message = messenger.get_mobile(data)
-        if new_message:
+    if (changed_field := messenger.changed_field(data)) == "messages":
+        if new_message := messenger.get_mobile(data):
             mobile = messenger.get_mobile(data)
-            message_type = messenger.get_message_type(data)
 
-            if message_type == "text":
+            if (message_type := messenger.get_message_type(data)) == "text":
                 message = messenger.get_message(data)
                 name = messenger.get_name(data)
                 print(f"{name} with this {mobile} number sent  {message}")
@@ -42,8 +39,7 @@ def hook():
             else:
                 pass
         else:
-            delivery = messenger.get_delivery(data)
-            if delivery:
+            if delivery := messenger.get_delivery(data):
                 print(f"Message : {delivery}")
             else:
                 print("No new message")

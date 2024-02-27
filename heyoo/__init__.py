@@ -172,8 +172,7 @@ class WhatsApp(object):
             return data["contacts"][0]["wa_id"]
 
     def get_name(self, data):
-        contact = self.preprocess(data)
-        if contact:
+        if contact := self.preprocess(data):
             return contact["contacts"][0]["profile"]["name"]
 
     def get_message(self, data):
