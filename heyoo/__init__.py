@@ -24,7 +24,7 @@ class WhatsApp(object):
             "type": "text",
             "text": {"preview_url": preview_url, "body": message},
         }
-        r = requests.post(f"{self.url}", headers=self.headers, json=data)
+        r = requests.post(f"{self.url}", headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def send_template(self, template, recipient_id, lang="en_US"):
@@ -34,7 +34,7 @@ class WhatsApp(object):
             "type": "template",
             "template": {"name": template, "language": {"code": lang}},
         }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def send_location(self, lat, long, name, address, recipient_id):
@@ -49,7 +49,7 @@ class WhatsApp(object):
                 "address": address,
             },
         }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def send_image(
@@ -76,7 +76,7 @@ class WhatsApp(object):
                 "type": "image",
                 "image": {"id": image, "caption": caption},
             }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def send_audio(self, audio, recipient_id, link=True):
@@ -94,7 +94,7 @@ class WhatsApp(object):
                 "type": "audio",
                 "audio": {"id": audio},
             }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def send_video(self, video, recipient_id, caption=None, link=True):
@@ -112,7 +112,7 @@ class WhatsApp(object):
                 "type": "video",
                 "video": {"id": video, "caption": caption},
             }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def send_document(self, document, recipient_id, caption=None, link=True):
@@ -130,7 +130,7 @@ class WhatsApp(object):
                 "type": "document",
                 "document": {"id": document, "caption": caption},
             }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def create_button(self, button):
@@ -149,7 +149,7 @@ class WhatsApp(object):
             "type": "interactive",
             "interactive": self.create_button(button),
         }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
     
     def send_reply_button(self, button, recipient_id):
@@ -160,7 +160,7 @@ class WhatsApp(object):
             "type": "interactive",
             "interactive": button,
         }
-        r = requests.post(self.url, headers=self.headers, json=data)
+        r = requests.post(self.url, headers=self.headers, json=data, timeout=60)
         return r.json()
 
     def preprocess(self, data):
