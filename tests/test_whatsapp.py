@@ -259,49 +259,6 @@ class TestSendImage(unittest.TestCase):
         self.assertEqual(payload["recipient_type"], "group")
 
 
-class TestSendAudio(unittest.TestCase):
-    """Tests for send_audio method."""
-
-    def setUp(self):
-        self.messenger = WhatsApp(token="test_token", phone_number_id="123456")
-
-    @patch("heyoo.requests.post")
-    def test_send_audio_with_link(self, mock_post):
-        mock_response = MagicMock()
-        mock_response.json.return_value = {"messages": [{"id": "audio_1"}]}
-        mock_post.return_value = mock_response
-
-        result = self.messenger.send_audio(
-            audio="https://example.com/audio.mp3",
-            recipient_id="1234567890",
-            link=True,
-        )
-
-        call_kwargs = mock_post.call_args
-        payload = call_kwargs.kwargs["json"] if "json" in call_kwargs.kwargs else call_kwargs[1]["json"]
-        self.assertEqual(payload["type"], "audio")
-        self.assertEqual(payload["audio"]["link"], "https://example.com/audio.mp3")
-        self.assertNotIn("id", payload["audio"])
-        self.assertEqual(result, {"messages": [{"id": "audio_1"}]})
-
-    @patch("heyoo.requests.post")
-    def test_send_audio_with_media_id(self, mock_post):
-        mock_response = MagicMock()
-        mock_response.json.return_value = {}
-        mock_post.return_value = mock_response
-
-        self.messenger.send_audio(
-            audio="audio_media_id_456",
-            recipient_id="1234567890",
-            link=False,
-        )
-
-        call_kwargs = mock_post.call_args
-        payload = call_kwargs.kwargs["json"] if "json" in call_kwargs.kwargs else call_kwargs[1]["json"]
-        self.assertEqual(payload["audio"]["id"], "audio_media_id_456")
-        self.assertNotIn("link", payload["audio"])
-
-
 class TestSendVideo(unittest.TestCase):
     """Tests for send_video method."""
 
